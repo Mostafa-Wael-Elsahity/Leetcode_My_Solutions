@@ -2,22 +2,23 @@ class Solution {
 public:
     int snakesAndLadders(vector<vector<int>>& board) {
         // reindexing board 
-        int n=board.size(),idx=1,step=0,sz;
+        int n=board.size(),idx=1,step=1,sz;
+        bool flip=1;
         unordered_map<int,int>mp;
         unordered_set<int>vis;
-        for(int i=n-1;i>=0;i--){
-            int actualRowIdx = (n - i - 1);   //rowIndex from bottom 
-            int low = (actualRowIdx * n) + 1, high = low + n - 1;  //range of values in currRow
-            int forwardCellIdx = low, reverseCellIdx = high;
-            for (int j = 0; j < n; j++)
-            {
-                int actualCellIdx = (actualRowIdx % 2 == 0)? forwardCellIdx : reverseCellIdx;
-                if (board[i][j] != -1) mp[actualCellIdx] = board[i][j];
-                else mp[actualCellIdx] = actualCellIdx;
-                forwardCellIdx++;
-                reverseCellIdx--;
+        for(int i=n-1;i>=0;i--,flip=!flip){
+            if(flip){
+                for(int j=0;j<n;j++,step++){
+                    mp[step]=board[i][j]>0?board[i][j]:step;
+                }
+            }
+            else{
+                for(int j=n-1;j>=0;j--,step++){
+                    mp[step]=board[i][j]>0?board[i][j]:step;
+                }
             }
         }
+        step=0;
         queue<int>q;
         q.push(1);
         vis.insert(1);
