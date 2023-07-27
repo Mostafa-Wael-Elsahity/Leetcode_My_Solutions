@@ -1,15 +1,14 @@
 class Solution {
 public:
     long long maxRunTime(int n, vector<int>& batteries) {
-        long long left=1,right=0,mid,sum=0,extra;
-        for(auto battery:batteries) sum+=battery;
-        right=sum/n;
-        while(left<right){
-            mid=right - (right - left) / 2,extra=0;
-            for(auto battery:batteries) extra+=min(battery*1ll,mid);
-            if(extra>=n*mid) left=mid;
-            else right=mid-1;
+        sort(batteries.begin(),batteries.end());
+        long long extra=0,m=batteries.size();
+        for(int i=0;i<m-n;++i) extra+=batteries[i];
+        vector<int>live(batteries.begin()+m-n,batteries.end());
+        for(int i=0;i<n-1;++i) {
+            if(extra<(long long)(i+1)*(live[i+1]-live[i])) return live[i]+extra/(i+1);
+            extra-=(long long)(i+1)*(live[i+1]-live[i]);
         }
-        return left;
+        return live[n-1]+extra/n;
     }
 };
