@@ -1,7 +1,8 @@
 class Solution {
 public:
     double soupServings(int n) {
-        int m = ceil(n / 25.0);
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
         double memo[200][200]={};
         function<double(int, int)> calculateDP = [&](int i, int j) -> double {
             if (i <= 0 && j <= 0)  return 0.5;
@@ -11,11 +12,6 @@ public:
             return memo[i][j] = (calculateDP(i - 4, j) + calculateDP(i - 3, j - 1) +
                                calculateDP(i - 2, j - 2) + calculateDP(i - 1, j - 3))*0.25;
         };
-        for (int k = 1; k <= m; k++) {
-            if (calculateDP(k, k) > 1 - 1e-5) {
-                return 1;
-            }
-        }
-        return calculateDP(m, m);
+        return n > 4800 ?  1.0 : calculateDP((n + 24) / 25, (n + 24) / 25);
     }
 };
