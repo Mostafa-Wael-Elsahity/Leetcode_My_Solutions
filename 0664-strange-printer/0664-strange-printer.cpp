@@ -1,7 +1,7 @@
 class Solution {
 public:
     int strangePrinter(string s) {
-        ios_base::sync_with_stdio(false);cin.tie(NULL);
+        ios_base::sync_with_stdio(0);cin.tie(NULL);
         int n=s.size();
         string str; // to compression s
         for(int i=0; i<n;){
